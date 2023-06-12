@@ -2,9 +2,9 @@ from django.db import models
 
 
 class Sex_options(models.TextChoices):
-    Male = "Male"
-    Female = "Female"
-    Not_informed = "Not Informed"
+    MALE = "Male"
+    FEMALE = "Female"
+    NOT_INFORMED = "Not Informed"
 
 
 class Pet(models.Model):
@@ -13,7 +13,7 @@ class Pet(models.Model):
     weight = models.FloatField()
 
     sex = models.CharField(
-        max_length=20, choices=Sex_options.choices, default=Sex_options.Not_informed
+        max_length=20, choices=Sex_options.choices, default=Sex_options.NOT_INFORMED
     )
 
     group = models.ForeignKey(

@@ -3,14 +3,17 @@ from .models import Pet
 from groups.models import Group
 from traits.models import Trait
 from .serializers import PetSerializer
+from rest_framework.pagination import PageNumberPagination
 
 
-class PetView(APIView):
+class PetView(APIView, PageNumberPagination):
     def get(self, request: Request) -> Response:
         pets = Pet.objects.all()
 
-        serializer = PetSerializer(instance=pets, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        result_page = self.paginate_queryset(pets, request)
+
+        serializer = PetSerializer(instance=result_page, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request: Request) -> Response:
         serializer = PetSerializer(data=request.data)
